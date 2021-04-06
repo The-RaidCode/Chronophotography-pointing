@@ -11,7 +11,7 @@ Basic Library for GUI
 
 """
 
-__title__ = "gui"
+__title__ = "gui/tools"
 __author__ = "The RaidCode"
 __license__ = "Mozilla Public License 2.0"
 __copyright__ = "Copyright 2019-2021 The RaidCode"
