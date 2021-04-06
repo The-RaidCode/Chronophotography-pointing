@@ -44,15 +44,28 @@ class Application(threading.Thread):
         self._icon = None
         self._resizable = None
         self._background = None
+        self._is_fullscreen = None
 
-        self.setAppName(name)
-        self.setGeometry(geometry)
-        self.setIcon(icon)
-        self.setResizable(resizable)
-        self.setBackground(background)
+        self.set_app_name(name)
+        self.set_geometry(geometry)
+        self.set_icon(icon)
+        self.set_resizable(resizable)
+        self.set_background(background)
 
         threading.Thread.__init__(self)
         self.start()
+
+    def __set_fullscreen(self, event=None):
+        """
+        Set or unset fullscreen mode on the window
+        """
+
+        if self._is_fullscreen:
+            self._window.attributes("-fullscreen", False)
+            self._is_fullscreen = False
+        else:
+            self._window.attributes("-fullscreen", True)
+            self._is_fullscreen = True
 
     def destroy(self):
         """
@@ -76,13 +89,18 @@ class Application(threading.Thread):
 
         self._window.resizable(self._resizable, self._resizable)
         self._window.title(self._appName)
+        if self._geometry == "fullscreen":
+            self.set_geometry("{0}x{1}+0+0".format(self._window.winfo_screenwidth(), self._window.winfo_screenheight()))
+            self.__set_fullscreen()
         self._window.geometry(self._geometry)
         self._window.iconbitmap(self._icon)
         self._window.config(bg=self._background)
 
+        self._window.bind("<F11>", self.__set_fullscreen)
+
     # -*- Setter -*-
 
-    def setAppName(self, name: str):
+    def set_app_name(self, name: str):
         """
         :param str name: Name of the window
         """
@@ -92,17 +110,20 @@ class Application(threading.Thread):
         else:
             raise ValueError("This value must be between 3 and 16 chars", self.ERR_NAME)
 
-    def setGeometry(self, geometry: str):
+    def set_geometry(self, geometry: str):
         """
         :param str geometry: Geometry of the window
         """
 
-        if re.match(r"^\d{1,5}x\d{1,5}$", geometry):
+        if geometry == "fullscreen":
+            self._geometry = geometry
+            self._is_fullscreen = False
+        elif re.match(r"^\d{1,5}x\d{1,5}", geometry):
             self._geometry = geometry
         else:
             raise ValueError("This value doesn't respect the format", self.ERR_RESOLUTION)
 
-    def setIcon(self, icon: str = " "):
+    def set_icon(self, icon: str = " "):
         """
         :param str icon: Path to the icon of the window
         """
@@ -116,7 +137,7 @@ class Application(threading.Thread):
         else:
             raise ValueError("This value doesn't respect the format", self.ERR_ICON)
 
-    def setResizable(self, resizable: bool):
+    def set_resizable(self, resizable: bool):
         """
         :param bool resizable: Window resizable or not
         """
@@ -126,7 +147,7 @@ class Application(threading.Thread):
         else:
             raise ValueError("This value must be a boolean", self.ERR_RESIZABLE)
 
-    def setBackground(self, background: str):
+    def set_background(self, background: str):
         """
         :param str background: Hexadecimal code of the background of the window
         """
@@ -138,42 +159,42 @@ class Application(threading.Thread):
 
     # -*- Getters -*-
 
-    def getAppName(self):
+    def get_app_name(self):
         """
         :return str: Application name
         """
 
         return self._appName
 
-    def getGeometry(self):
+    def get_geometry(self):
         """
         :return str: Current geometry of the application
         """
 
         return self._geometry
 
-    def getIcon(self):
+    def get_icon(self):
         """
         :return str: Path to the icon of the application
         """
 
         return self._icon
 
-    def getResizable(self):
+    def get_resizable(self):
         """
         :return bool: If the window is resizable or not
         """
 
         return self._resizable
 
-    def getBackground(self):
+    def get_background(self):
         """
         :return str: Background color of the window (hexadecimal code)
         """
 
         return self._background
 
-    def getWindow(self):
+    def get_window(self):
         """
         :return Tk: Current window
         """
