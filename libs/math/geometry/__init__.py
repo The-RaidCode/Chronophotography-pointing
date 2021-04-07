@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
 """
-Logical functions Library
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Mathematical Geometry Library
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Basic Library for Logical functions
+Basic Library for Geometrical Objects
 
 :copyright: (c) 2019-2021 The RaidCode
 :license: Mozilla Public License 2.0, see LICENSE for more details.
 
 """
 
-__title__ = "logic/geometry"
+__title__ = "math/geometry"
 __author__ = "The RaidCode"
 __license__ = "Mozilla Public License 2.0"
 __copyright__ = "Copyright 2019-2021 The RaidCode"
