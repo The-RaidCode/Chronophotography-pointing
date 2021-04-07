@@ -8,10 +8,10 @@ class Polynomial:
     A class which represents a Polynomial (Mathematics)
 
     Attributes
-        terms (list) : List of the Monomials making the Polynomial
+        terms (list) : List of the Monomial objects making the Polynomial
 
     Methods
-        add : Add up to Polynomials
+        add : Adds up a Polynomial object to this one
         add_term : Adds a new Monomial to the Polynomial
         derive : Returns the Derivative as an other Polynomial Instance
     """
@@ -19,28 +19,41 @@ class Polynomial:
     def __init__(self, monomials: list):
         """
         :param list monomials: List of the Monomials to set
+        :raise TypeError: Raised if the argument 'monomials' is not a list
+        :raise TypeError: Raised if a non-Monomial object tried to be add to this Polynomial
         """
 
-        self.terms = monomials
+        if type(monomials) == list:
+            self.terms = []
 
-    def __str__(self, var: str = "x"):
+            for term in monomials:
+                if type(term) == Monomial:  # Checks if all the elements of monomials are Monomial Objects
+                    self.terms.append(term)
+                else:
+                    raise TypeError("can only contain Monomial object (not \"{}\")".format(type(term).__name__))
+        else:
+            raise TypeError("argument 'monomials' must be a list (not\"{}\"".format(type(monomials).__name__))
+
+    def __str__(self):
         """
-        :param var: Name of the Variable to use
         :return str: Character String of the Polynomial
         """
 
-        return "+".join([m.__str__(var) for m in self.terms])
+        return "+".join([str(m) for m in self.terms])
 
     def add(self, other):
         """
-        :param Polynomial other: Polynomial to add to this one
+        Adds up a Polynomial object to this one
+
+        :param Polynomial other: Polynomial object to add to this one
+        :raise TypeError: Raised when a non-Polynomial object tried to be summed up with this one
         """
 
         if type(other) == Polynomial:
             for term in other.get_terms():
                 self.add_term(term)
         else:
-            raise TypeError('TypeError: can only concatenate Polynomial (not "{}") to Polynomial'.format(type(other).__name__))
+            raise TypeError('can only concatenate Polynomial (not "{}") to Polynomial'.format(type(other).__name__))
 
     def get_terms(self):
         """
@@ -51,29 +64,35 @@ class Polynomial:
 
     def add_term(self, new_term: Monomial):
         """
-        Adds a new Monomial to the Polynomial
+        Adds a new Monomial object to the Polynomial
 
-        :param Monomial new_term: Monomial to add
+        :param Monomial new_term: Monomial object to add
+        :raise TypeError: Raised when new_term is not a Monomial Object
         """
 
-        print(self, new_term)
+        if type(new_term) == Monomial:
+            added = False
 
-        added = False
+            for i in range(len(self.terms)):  # Try to add, by adding coefficient with a Monomial of the same degree
+                if new_term.get_degree() == self.terms[i].get_degree() and new_term.get_var_name() == self.terms[i].get_var_name():
+                    self.terms[i].add(new_term)
+                    added = True
 
-        for i in range(len(self.terms)):  # Try to add, by adding coefficient with a Monomial of the same degree
-            if new_term.get_degree() == self.terms[i].get_degree():
-                self.terms[i].__add__(new_term)
-                added = True
-                break
+                    if self.terms[i].get_coefficient() == 0:  # If the coefficient is zero; remove the Monomial
+                        self.terms.pop(i)
 
-        if not added:  # If a Monomial of the same degree doesn't exist
-            self.terms.append(new_term.deepcopy())
+                    break
+
+            if not added:  # If a Monomial of the same degree doesn't exist or with a different variable
+                self.terms.append(new_term.deepcopy())
+        else:
+            raise TypeError("can only add a Monomial object (not \"{}\"".format(type(new_term).__name__))
 
     def derive(self):
         """
-        Derives the Polynomial
+        Derives this Polynomial
 
         :return Polynomial: Derivative of the Monomial
         """
 
-        return Polynomial([n.derive() for n in self.terms], self.variable)
+        return Polynomial([n.derive() for n in self.terms])
