@@ -20,7 +20,7 @@ Program developed by the French Students team **The RaidCode** from the _Lycée 
 * Louis DEMEULEMEESTER (TG-09) - @Astroow
 * Oscar ZAIDAN (TG-08) - @z-oscar
 * Marc GILLET (TG-04) - @Talthurin
-* Simon BLANCHAR (TG-08) - @Omykronn
+* Simon BLANCHARD (TG-08) - @Omykronn
 
 ---
 _OpenSource Project, under The Mozilla Public License 2.0 (for more details, see LICENSE)_
