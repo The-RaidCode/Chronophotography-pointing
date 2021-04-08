@@ -104,14 +104,11 @@ class Application(tkinter.Tk):
         :param str icon: Path to the icon of the window
         """
 
-        if re.match(r"^(\w+\\)*\w+.ico$", icon):
-            try:
-                with open(icon, "r"):
-                    self.__icon = icon
-            except FileNotFoundError:
-                raise ValueError("this path doesn't lead to any file")
-        else:
-            raise ValueError("this path doesn't respect the format")
+        try:
+            with open(icon, "r"):
+                self.__icon = icon
+        except FileNotFoundError:
+            raise ValueError("this path doesn't lead to any file")
 
     def set_resizable(self, resizable: bool):
         """
