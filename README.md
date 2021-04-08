@@ -1,7 +1,9 @@
 # Movement Study by Image Pointing
+
 This Programm is a learning tool that enable anyone to easily study a movement of a Chronophotography, thanks to pointing
 and calibrating. It also calculates the equations of the trajectory on the abscissa and ordinate axis, depending to the 
 time, and so the speed and acceleration vectors, displayed on each center of mass.
+
 ---
 ### Instructions to use
 1. Import the Image 
