@@ -13,6 +13,7 @@ class Polynomial:
     Methods
         add : Adds up a Polynomial object to this one
         add_term : Adds a new Monomial to the Polynomial
+        calculate : Returns the result of the Polynomial's Calculation with a given value
         derive : Returns the Derivative as an other Polynomial Instance
     """
 
@@ -74,7 +75,7 @@ class Polynomial:
             added = False
 
             for i in range(len(self.terms)):  # Try to add, by adding coefficient with a Monomial of the same degree
-                if new_term.get_degree() == self.terms[i].get_degree() and new_term.get_var_name() == self.terms[i].get_var_name():
+                if new_term.get_degree() == self.terms[i].get_degree():
                     self.terms[i].add(new_term)
                     added = True
 
@@ -96,3 +97,25 @@ class Polynomial:
         """
 
         return Polynomial([n.derive() for n in self.terms])
+
+    def calculate(self, value: float):
+        """
+        Returns the result of the Polynomial's Calculation with a given value
+
+        :param float value: Value to use for the calculation of the Polynomial (integers can be used)
+        :return float: Result of the Calculation
+        :raise TypeError: Raised when 'value' is not a float or an integer
+        """
+
+        if type(value) == int:
+            value = float(value)
+
+        if type(value) == float:
+            result = 0
+
+            for monomial in self.terms:
+                result += monomial.calculate(value)
+
+            return result
+        else:
+            raise TypeError("value must be an integer or a float (not \"{}\")".format(type(value).__name__))
