@@ -71,7 +71,9 @@ class Monomial:
         if self.coefficient != 1 or self.degree == 0:
             string += str(self.coefficient)
 
-        if self.degree != 0:
+        if self.degree == 1:
+            string += "x"
+        elif self.degree != 0:
             string += "x^{}".format(self.degree)
 
         return string

@@ -111,10 +111,10 @@ class Polynomial:
         """
         Derives this Polynomial
 
-        :return Polynomial: Derivative of the Monomial
+        :return Polynomial: Derivative of the Polynomial
         """
 
-        return Polynomial([n.derive() for n in self.terms])
+        return Polynomial(array=[n.derive() for n in self.terms])
 
     def calculate(self, value: float):
         """
