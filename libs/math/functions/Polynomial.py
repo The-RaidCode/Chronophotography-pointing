@@ -11,50 +11,78 @@ class Polynomial:
         terms (list) : List of the Monomial objects making the Polynomial
 
     Methods
-        add : Adds up a Polynomial object to this one
-        add_term : Adds a new Monomial to the Polynomial
+        add_term : Adds one or several new Monomial object(s) to the Polynomial
         calculate : Returns the result of the Polynomial's Calculation with a given value
         derive : Returns the Derivative as an other Polynomial Instance
+        simplify : Simplifies this Polynomial by adding up Monomial objects with the same degree
     """
 
-    def __init__(self, monomials: list):
+    def __init__(self, *monomials: Monomial, array: list = []):
         """
-        :param list monomials: List of the Monomials to set
-        :raise TypeError: Raised if the argument 'monomials' is not a list
+        :param Monomial monomials: Monomial object(s) to set
+        :param list array: Array of Monomial object(s) to set
         :raise TypeError: Raised if a non-Monomial object tried to be add to this Polynomial
         """
+        self.terms = []
 
-        if type(monomials) == list:
-            self.terms = []
+        for item in monomials:
+            if type(item) == Monomial:  # Checks if all the elements of monomials are Monomial Objects
+                self.terms.append(item)
+            else:
+                raise TypeError("can only contain Monomial object (not \"{}\")".format(type(item).__name__))
 
-            for term in monomials:
-                if type(term) == Monomial:  # Checks if all the elements of monomials are Monomial Objects
-                    self.terms.append(term)
-                else:
-                    raise TypeError("can only contain Monomial object (not \"{}\")".format(type(term).__name__))
-        else:
-            raise TypeError("argument 'monomials' must be a list (not\"{}\"".format(type(monomials).__name__))
+        for term in array:  # Same that above, but with array
+            if type(term) == Monomial:
+                self.terms.append(term)
+            else:
+                raise TypeError("can only contain Monomial object (not \"{}\")".format(type(term).__name__))
 
-    def __str__(self):
+        self.simplify()
+
+    def __add__(self, other):
         """
-        :return str: Character String of the Polynomial
-        """
-
-        return "+".join([str(m) for m in self.terms])
-
-    def add(self, other):
-        """
-        Adds up a Polynomial object to this one
-
         :param Polynomial other: Polynomial object to add to this one
+        :return Polynomial: Result of the Sum
         :raise TypeError: Raised when a non-Polynomial object tried to be summed up with this one
         """
 
         if type(other) == Polynomial:
-            for term in other.get_terms():
-                self.add_term(term)
+            return Polynomial(array=self.terms + other.get_terms())
         else:
             raise TypeError('can only concatenate Polynomial (not "{}") to Polynomial'.format(type(other).__name__))
+
+    def __mul__(self, other):
+        """
+        :param Polynomial other: Polynomial object to multiply
+        :return Polynomial: Result of the Multiplication
+        :raise TypeError: Raised when a non-Polynomial object tried to be multiplied with this one
+        """
+
+        if type(other) == Polynomial:
+            final_terms = []
+
+            for self_term in self.terms:
+                for other_term in other.get_terms():
+                    final_terms.append(self_term * other_term)
+
+            return Polynomial(array=final_terms)
+        else:
+            raise TypeError('can only concatenate Polynomial (not "{}") to Polynomial'.format(type(other).__name__))
+
+    def __str__(self):
+        """
+        :return str string: Character String of the Polynomial
+        """
+
+        string = str(self.terms[0])
+
+        for monomial in self.terms[1:]:
+            if monomial.coefficient >= 0:
+                string += "+"
+
+            string += str(monomial)
+
+        return string
 
     def get_terms(self):
         """
@@ -63,31 +91,21 @@ class Polynomial:
 
         return self.terms
 
-    def add_term(self, new_term: Monomial):
+    def add_term(self, *new_terms: Monomial):
         """
-        Adds a new Monomial object to the Polynomial
+        Adds one or several new Monomial object(s) to the Polynomial
 
-        :param Monomial new_term: Monomial object to add
+        :param Monomial new_terms: Monomial object(s) to add
         :raise TypeError: Raised when new_term is not a Monomial Object
         """
 
-        if type(new_term) == Monomial:
-            added = False
+        for new in new_terms:
+            if type(new) == Monomial:
+                self.terms.append(new)
+            else:
+                raise TypeError("can only add a Monomial object (not \"{}\"".format(type(new).__name__))
 
-            for i in range(len(self.terms)):  # Try to add, by adding coefficient with a Monomial of the same degree
-                if new_term.get_degree() == self.terms[i].get_degree():
-                    self.terms[i].add(new_term)
-                    added = True
-
-                    if self.terms[i].get_coefficient() == 0:  # If the coefficient is zero; remove the Monomial
-                        self.terms.pop(i)
-
-                    break
-
-            if not added:  # If a Monomial of the same degree doesn't exist or with a different variable
-                self.terms.append(new_term.deepcopy())
-        else:
-            raise TypeError("can only add a Monomial object (not \"{}\"".format(type(new_term).__name__))
+            self.simplify()
 
     def derive(self):
         """
@@ -119,3 +137,21 @@ class Polynomial:
             return result
         else:
             raise TypeError("value must be an integer or a float (not \"{}\")".format(type(value).__name__))
+
+    def simplify(self):
+        """
+        Simplifies this Polynomial by adding up Monomial objects with the same degree
+        """
+
+        i = 0
+
+        while i < len(self.terms):
+            j = i + 1
+            while j < len(self.terms):
+                if self.terms[i].get_degree() == self.terms[j].get_degree():
+                    self.terms[i] += self.terms[j]
+                    self.terms.pop(j)
+                    # No incrementation because self.terms[j] is a new object
+                else:
+                    j += 1
+            i += 1

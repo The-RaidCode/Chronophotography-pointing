@@ -9,9 +9,7 @@ class Monomial:
         coefficient (float) : Multiplying Factor of the Monomial
 
     Methods
-        add : Adds up a Monomial object to this one
         calculate : Returns the result of the Monomial's Calculation with a given value
-        deepcopy : Returns a new Object with the same arguments
         derive : Returns the Derivative as an other Monomial Instance
     """
 
@@ -35,29 +33,48 @@ class Monomial:
         else:
             raise TypeError("'coefficient' must be a float (not \"{}\"".format(type(coefficient).__name__))
 
-    def __str__(self):
+    def __add__(self, other):
         """
-        :return str: Character String of the Monomial
-        """
-
-        return "{coefficient}x^{p}".format(coefficient=self.coefficient, p=self.degree)
-
-    def add(self, other):
-        """
-        Adds up a Monomial object to this one
-
-        :param Monomial other:
+        :param Monomial other: Monomial object to add up
+        :return Monomial: Result of the Sum
         :raise TypeError: Raised when a non-Monomial object tried to be summed up with this one
         :raise ValueError: Raised if the Monomial Objects do not have the same degree
         """
 
         if type(other) is Monomial:
             if other.get_degree() == self.degree:
-                self.coefficient += other.get_coefficient()
+                return Monomial(self.degree, self.coefficient + other.get_coefficient())
             else:
                 raise ValueError("ValueError: can only concatenate Monomial objects with the same degree")
         else:
             raise TypeError("can only concatenate Monomial (not \"{}\") to Monomial".format(type(other).__name__))
+
+    def __mul__(self, other):
+        """
+        :param Monomial other: Monomial object to multiply
+        :return Monomial: Result of the Multiplication
+        :raise TypeError: Raised when a non-Monomial object tried to be multiplied with this one
+        """
+
+        if type(other) is Monomial:
+            return Monomial(self.degree + other.get_degree(), self.coefficient * other.get_coefficient())
+        else:
+            raise TypeError("can only multiply Monomial by Monomial (not \"{}\")".format(type(other).__name__))
+
+    def __str__(self):
+        """
+        :return str string: Character String of the Monomial
+        """
+
+        string = ""
+
+        if self.coefficient != 1 or self.degree == 0:
+            string += str(self.coefficient)
+
+        if self.degree != 0:
+            string += "x^{}".format(self.degree)
+
+        return string
 
     def get_degree(self):
         """
@@ -95,15 +112,6 @@ class Monomial:
         """
 
         return Monomial(self.degree - 1, self.coefficient * self.degree)
-
-    def deepcopy(self):
-        """
-        Returns a new Object with the same arguments
-
-        :return Monomial: Same Object that self
-        """
-
-        return Monomial(self.degree, self.coefficient)
     
     def calculate(self, value: float):
         """
