@@ -3,18 +3,24 @@
 from math import *
 from tkinter import *
 
+
 class Point:
+
     """
         A class which represents a Point
 
         Attributes
             x (float) : The abscissa
             y (float) : The ordinate
+            can(Canvas) : The Canvas where the point will be drawn
+            color(str) :
 
         Methods
             distance_to : Returns the distance between this point and an other point
+            draw : Draw the point on the Canvas
         """
-    def __init__(self, x: float, y: float):
+
+    def __init__(self, x: float, y: float, can: Canvas, color):
         """
         :param float x: The abscissa to set
         :param float y: The ordinate to set
@@ -22,8 +28,10 @@ class Point:
 
         self.__x = None
         self.__y = None
+        self.can = can
+        self.__color = 'black'
 
-
+        self.set_color(color)
         self.set_x(x)
         self.set_y(y)
 
@@ -37,9 +45,16 @@ class Point:
 
         return sqrt((self.__x - x) ** 2 + (self.__y - y) ** 2)
 
-    #def draw(self, ):
-    #    self.set_color(color)
-    #    image.create_oval(self.__x-5, self.__y-5, self.__x+5, self.__y+5, fill=self.__color, outline=self.__color)
+    def draw(self, event):
+        """
+        Draw the point on the Canvas
+
+        :param event: object of the event click
+        """
+        self.__x = event.x
+        self.__y = event.y
+        self.can.create_oval(self.__x - 5, self.__y - 5, self.__x + 5, self.__y + 5, fill=self.__color,
+                             outline=self.__color)
 
     def set_x(self, x):
         """
@@ -60,7 +75,11 @@ class Point:
             self.__y = 0
 
     def set_color(self, color: str):
+        """
+        :param color: color of the point
+        """
         self.__color = color
+
     def get_x(self):
         """
         :return float: The abscissa
