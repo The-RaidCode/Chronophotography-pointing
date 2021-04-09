@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from libs.gui.ApplicationManager import ApplicationManager
+from libs.gui.managers.ApplicationManager import ApplicationManager
 
 
 def main():
