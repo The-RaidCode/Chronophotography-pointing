@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import tkinter.filedialog
 
 from libs.gui.managers import ApplicationManager
