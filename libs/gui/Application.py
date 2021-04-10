@@ -15,6 +15,7 @@ class Application(tkinter.Tk):
         resizable (bool) : Window resizable with the mouse or not
         background (str) : Default hexadecimal background color code
         fullscreen_mode (bool) : Window fullscreen mode
+        main_title (str) : First title initialised with the window
 
     Methods
         change_fullscreen_mode : Change window's fullscreen mode
@@ -45,6 +46,7 @@ class Application(tkinter.Tk):
         self.set_icon(icon)
         self.set_resizable(resizable)
         self.set_background(background)
+        self.__main_title = self.__app_name
 
         self.__build_app()
 
@@ -74,6 +76,9 @@ class Application(tkinter.Tk):
             self.geometry(self.__geometry)
             self.set_fullscreen_mode(False)
 
+    def update_title(self):
+        self.title(self.__app_name)
+
     # -*- Setters -*-
 
     def set_app_name(self, app_name: str):
@@ -81,10 +86,11 @@ class Application(tkinter.Tk):
         :param str app_name: Name of the window
         """
 
-        if 3 <= len(app_name) <= 16:
+        if 3 <= len(app_name):
             self.__app_name = str(app_name)
+            self.update_title()
         else:
-            raise ValueError("this value must be between 3 and 16 chars (not {})".format(len(app_name)))
+            raise ValueError("this value must be greater than 3 (not {})".format(len(app_name)))
 
     def set_geometry(self, geometry: str):
         """
@@ -148,7 +154,7 @@ class Application(tkinter.Tk):
         :return str: Application name
         """
 
-        return self.__appName
+        return self.__app_name
 
     def get_geometry(self):
         """
@@ -180,7 +186,14 @@ class Application(tkinter.Tk):
 
     def get_fullscreen_mode(self):
         """
-        :return: Current fullscreen mode
+        :return bool: Current fullscreen mode
         """
 
         return self.__fullscreen_mode
+
+    def get_main_title(self):
+        """
+        :return str: First title initialised with the window
+        """
+
+        return self.__main_title

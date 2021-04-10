@@ -14,12 +14,14 @@ class MenuBarManager:
         main_menu_bar (Menu) : Main Tkinter menu bar
         menu_file (Menu) : File Tkinter menu bar
         import_media_icon (PhotoImage) : Import media function icon
+        delete_media_icon (PhotoImage) : Delete media function icon
         export_csv_icon (PhotoImage) : Export CSV function icon
         quit_icon (PhotoImage) : Quit function icon
 
     Methods
         load_menu_file : Loads file menu bar
         open_file_explorer : Opens file explorer, triggered on 'Import media' button
+        clear_canvas : Clears media from canvas area
     """
 
     def __init__(self):
@@ -34,6 +36,7 @@ class MenuBarManager:
         self.__menu_file = tkinter.Menu(self.__main_menu_bar, tearoff=0)
 
         self.__import_media_icon = tkinter.PhotoImage(file="resources/icons/menu/import_media.png")
+        self.__delete_media_icon = tkinter.PhotoImage(file="resources/icons/menu/delete_media.png")
         self.__export_csv_icon = tkinter.PhotoImage(file="resources/icons/menu/export_csv.png")
         self.__quit_icon = tkinter.PhotoImage(file="resources/icons/menu/quit.png")
 
@@ -53,6 +56,8 @@ class MenuBarManager:
         self.__menu_file.add_separator()
         self.__menu_file.add_command(label="Importer un média (Ctrl+I)", compound="left",
                                      image=self.__import_media_icon, command=self.__open_file_explorer)
+        self.__menu_file.add_command(label="Supprimer le média (Ctrl+D)", compound="left",
+                                     image=self.__delete_media_icon, command=self.__clear_canvas)
         self.__menu_file.add_separator()
         self.__menu_file.add_command(label="Exporter en CSV", compound="left",
                                      image=self.__export_csv_icon, command=None)
@@ -66,6 +71,7 @@ class MenuBarManager:
         self.__menu_file.entryconfig("Ouvrir un projet", state="disabled")
 
         self.__application_manager.get_application().bind("<Control-i>", self.__open_file_explorer)
+        self.__application_manager.get_application().bind("<Control-d>", self.__clear_canvas)
         self.__application_manager.get_application().bind("<Control-q>", lambda p: self.__application.destroy())
 
         self.__main_menu_bar.add_cascade(label="Fichier", menu=self.__menu_file)
@@ -85,3 +91,15 @@ class MenuBarManager:
                                                                  ("Tous les fichiers", "*.*")))
         if filename:
             self.__application_manager.get_image_manager().load_image(filename)
+
+    def __clear_canvas(self, event=None):
+        """
+        Triggered on 'Delete media' button
+        Delete current media in the canvas area
+
+        :param event: Event triggered by Tkinter
+        """
+
+        self.__application_manager.get_image_manager().clear_canvas()
+        self.__application_manager.get_application().set_app_name(
+            self.__application_manager.get_application().get_main_title())
