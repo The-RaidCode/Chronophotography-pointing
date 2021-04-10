@@ -183,3 +183,11 @@ class Polynomial:
                 else:
                     j += 1
             i += 1
+
+        i = 0
+
+        while i < len(self.terms):
+            if self.terms[i].get_coefficient() == 0:
+                self.terms.pop(i)
+            else:
+                i += 1

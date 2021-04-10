@@ -26,6 +26,22 @@ class Exponential:
         self.power = power
         self.factor = factor
 
+    def __add__(self, other):
+        """
+        :param Exponential other: Exponential object to add up
+        :return Exponential: Result of the Sum
+        :raise TypeError: Raised when a non-Exponential object tried to be summed up with this one
+        :raise ValueError: Raised if the Exponential Objects do not have the same power
+        """
+
+        if type(other) is Exponential:
+            if other.get_power() == self.power:
+                return Exponential(self.power, self.factor + other.get_factor())
+            else:
+                raise ValueError("ValueError: can only concatenate Exponential objects with the same power")
+        else:
+            raise TypeError("can only concatenate Exponential (not \"{}\") to Exponential".format(type(other).__name__))
+
     def __mul__(self, other):
         """
         :param Exponential other: Exponential object to multiply
