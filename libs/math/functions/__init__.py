@@ -15,4 +15,9 @@ __title__ = "math/functions"
 __author__ = "The RaidCode"
 __license__ = "Mozilla Public License 2.0"
 __copyright__ = "Copyright 2019-2021 The RaidCode"
-__version__ = "1.2.2"
+__version__ = "1.2.3"
+
+
+from libs.math.functions.Polynomial import Polynomial
+from libs.math.functions.Monomial import Monomial
+from libs.math.functions.Exponential import Exponential

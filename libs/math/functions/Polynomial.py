@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from Monomial import Monomial
+from libs.math.functions.Monomial import Monomial
 
 
 class Polynomial:

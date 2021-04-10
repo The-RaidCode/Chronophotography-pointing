@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from Polynomial import Polynomial
+from libs.math.functions.Polynomial import Polynomial
 from math import exp
 
 
