@@ -26,13 +26,6 @@ class Exponential:
         self.power = power
         self.factor = factor
 
-    def __str__(self):
-        """
-        :return str: Character String of the Exponential
-        """
-
-        return "({factor})exp({p})".format(factor=self.factor, p=self.power)
-
     def __mul__(self, other):
         """
         :param Exponential other: Exponential object to multiply
@@ -44,6 +37,21 @@ class Exponential:
             return Exponential(self.power + other.get_power(), self.factor * other.get_factor())
         else:
             raise TypeError("can only multiply Exponential by Exponential (not \"{}\")".format(type(other).__name__))
+
+    def __eq__(self, other):
+        """
+        :param other: Object to compare
+        :return bool: Result of the Comparison
+        """
+
+        return type(other) == Exponential and self.factor == other.get_factor() and self.power == other.get_power()
+
+    def __str__(self):
+        """
+        :return str: Character String of the Exponential
+        """
+
+        return "({factor})exp({p})".format(factor=self.factor, p=self.power)
 
     def get_power(self):
         """
@@ -61,17 +69,25 @@ class Exponential:
 
     def set_power(self, power: Polynomial):
         """
-        :param Polynomial power: Degree of the Exponential to set
+        :param Polynomial power: Power of the Exponential to set
+        :raise TypeError: Raised when power is not a Polynomial object
         """
 
-        self.power = power
+        if type(power) == Polynomial:
+            self.power = power
+        else:
+            raise TypeError("'power' must be an Polynomial object (not \"{}\")".format(type(power).__name__))
 
     def set_factor(self, factor: Polynomial):
         """
         :param Polynomial factor: Multiplying Factor of the Exponential
+        :raise TypeError: Raised when factor is not a Polynomial object
         """
 
-        self.factor = factor
+        if type(factor) == Polynomial:
+            self.factor = factor
+        else:
+            raise TypeError("'factor' must be an Polynomial object (not \"{}\")".format(type(factor).__name__))
 
     def derive(self):
         """

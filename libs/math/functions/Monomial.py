@@ -22,16 +22,16 @@ class Monomial:
         """
 
         if type(degree) == int:
-            self.degree = degree if degree >= 0 else 0  # Check if the degree is positive or zero
+            self.degree = degree
         else:
-            raise TypeError("'degree' must be an integer (not \"{}\"".format(type(degree).__name__))
+            raise TypeError("'degree' must be an integer (not \"{}\")".format(type(degree).__name__))
 
         if type(coefficient) == float:
             self.coefficient = coefficient
         elif type(coefficient) == int:
             self.coefficient = float(coefficient)
         else:
-            raise TypeError("'coefficient' must be a float (not \"{}\"".format(type(coefficient).__name__))
+            raise TypeError("'coefficient' must be a float or an integer (not \"{}\")".format(type(coefficient).__name__))
 
     def __add__(self, other):
         """
@@ -60,6 +60,14 @@ class Monomial:
             return Monomial(self.degree + other.get_degree(), self.coefficient * other.get_coefficient())
         else:
             raise TypeError("can only multiply Monomial by Monomial (not \"{}\")".format(type(other).__name__))
+
+    def __eq__(self, other):
+        """
+        :param other: Object to compare
+        :return bool: Result of the comparison
+        """
+
+        return type(other) == Monomial and self.degree == other.get_degree() and self.coefficient == other.get_coefficient()
 
     def __str__(self):
         """
@@ -97,14 +105,24 @@ class Monomial:
         :param int degree: Degree of the Monomial to set
         """
 
-        self.degree = degree if degree >= 0 else 0
+        if type(degree) == int:
+            self.degree = degree
+        else:
+            raise TypeError("'degree' must be an integer (not \"{}\")".format(type(degree).__name__))
 
     def set_coefficient(self, coefficient: float):
         """
         :param float coefficient: Multiplying Factor of the Monomial
+        :raise TypeError: Raised when degree is not a integer
+        :raise TypeError: Raised when coefficient is not a float or an integer
         """
 
-        self.coefficient = coefficient
+        if type(coefficient) == float:
+            self.coefficient = coefficient
+        elif type(coefficient) == int:
+            self.coefficient = float(coefficient)
+        else:
+            raise TypeError("'coefficient' must be a float or an integer (not \"{}\")".format(type(coefficient).__name__))
 
     def derive(self):
         """

@@ -69,6 +69,34 @@ class Polynomial:
         else:
             raise TypeError('can only concatenate Polynomial (not "{}") to Polynomial'.format(type(other).__name__))
 
+    def __eq__(self, other):
+        """
+        :param other: Object to compare
+        :return bool: Result of the comparison
+        """
+
+        if type(other) == Polynomial :
+            other_terms = other.get_terms()
+            i_max = len(self.terms)
+            j_max = len(other_terms)
+
+            i = 0
+            same = i_max == j_max
+
+            while same and i < i_max:
+                j = 0
+                found = False
+
+                while not found and j < j_max:
+                    found = self.terms[i] == other_terms[j]
+                    j += 1
+
+                same = found
+                i += 1
+            return same
+        else:
+            return False
+
     def __str__(self):
         """
         :return str string: Character String of the Polynomial
@@ -103,7 +131,7 @@ class Polynomial:
             if type(new) == Monomial:
                 self.terms.append(new)
             else:
-                raise TypeError("can only add a Monomial object (not \"{}\"".format(type(new).__name__))
+                raise TypeError("can only add a Monomial object (not \"{}\")".format(type(new).__name__))
 
             self.simplify()
 
