@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
 """
-Main library
+Graphical User Interface library
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Main library
+Basic Library for GUI
 
 :copyright: (c) 2019-2021 The RaidCode
 :license: Mozilla Public License 2.0, see LICENSE for more details.
 
 """
 
-__title__ = "libs"
+__title__ = "gui/managers"
 __author__ = "The RaidCode"
 __license__ = "Mozilla Public License 2.0"
 __copyright__ = "Copyright 2019-2021 The RaidCode"
