@@ -17,34 +17,35 @@ class Vector:
 
     """
 
-    def __init__(self, application_point: Point, x: float, y: float, can: Canvas):
+    def __init__(self, application_point: Point, x: float, y: float):
         """
 
         :param application_point: the point of application of the vector
         :param x: the abscissa to set
         :param y: The ordinate to set
-        :param can: The
+
         """
         self.__application_point = application_point
         self.__x = None
         self.__y = None
-        self.__length = None
+        self.__lenght = None
 
-        self.__image = can
         self.__color = 'black'
 
         self.set_x(x)
         self.set_y(y)
         self.set_length()
 
-    def draw(self, color):
+    def draw(self, can: Canvas, color):
         """
         Draw the vector on the Canvas automatically when there is a click on the Canvas
 
+        :param can: The canvas where the vector will be draw
         :param color: object of the event click
         """
         self.set_color(color)
-        self.__image.create_line(self.__application_point.get_x(),
+        self.can = can
+        self.can.create_line(self.__application_point.get_x(),
                                  self.__application_point.get_y(),
                                  self.__application_point.get_x() + self.__x,
                                  self.__application_point.get_y() + self.__y,
