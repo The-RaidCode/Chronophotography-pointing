@@ -157,3 +157,9 @@ class ImageManager:
         """
 
         return self.__id_photo
+
+    def get_canvas_width(self):
+        return self.__canvas_width
+
+    def get_canvas_height(self):
+        return self.__canvas_height
