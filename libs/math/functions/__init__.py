@@ -15,7 +15,7 @@ __title__ = "math/functions"
 __author__ = "The RaidCode"
 __license__ = "Mozilla Public License 2.0"
 __copyright__ = "Copyright 2019-2021 The RaidCode"
-__version__ = "1.2.3"
+__version__ = "1.2.4"
 
 
 from libs.math.functions.Polynomial import Polynomial

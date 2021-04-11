@@ -23,17 +23,17 @@ class Polynomial:
         :param list array: Array of Monomial object(s) to set
         :raise TypeError: Raised if a non-Monomial object tried to be add to this Polynomial
         """
-        self.terms = []
+        self.__terms = []
 
         for item in monomials:
             if type(item) == Monomial:  # Checks if all the elements of monomials are Monomial Objects
-                self.terms.append(item)
+                self.__terms.append(item)
             else:
                 raise TypeError("can only contain Monomial object (not \"{}\")".format(type(item).__name__))
 
         for term in array:  # Same that above, but with array
             if type(term) == Monomial:
-                self.terms.append(term)
+                self.__terms.append(term)
             else:
                 raise TypeError("can only contain Monomial object (not \"{}\")".format(type(term).__name__))
 
@@ -47,7 +47,7 @@ class Polynomial:
         """
 
         if type(other) == Polynomial:
-            return Polynomial(array=self.terms + other.get_terms())
+            return Polynomial(array=self.__terms + other.get_terms())
         else:
             raise TypeError('can only concatenate Polynomial (not "{}") to Polynomial'.format(type(other).__name__))
 
@@ -61,7 +61,7 @@ class Polynomial:
         if type(other) == Polynomial:
             final_terms = []
 
-            for self_term in self.terms:
+            for self_term in self.__terms:
                 for other_term in other.get_terms():
                     final_terms.append(self_term * other_term)
 
@@ -77,7 +77,7 @@ class Polynomial:
 
         if type(other) == Polynomial :
             other_terms = other.get_terms()
-            i_max = len(self.terms)
+            i_max = len(self.__terms)
             j_max = len(other_terms)
 
             i = 0
@@ -88,7 +88,7 @@ class Polynomial:
                 found = False
 
                 while not found and j < j_max:
-                    found = self.terms[i] == other_terms[j]
+                    found = self.__terms[i] == other_terms[j]
                     j += 1
 
                 same = found
@@ -102,10 +102,10 @@ class Polynomial:
         :return str string: Character String of the Polynomial
         """
 
-        string = str(self.terms[0])
+        string = str(self.__terms[0])
 
-        for monomial in self.terms[1:]:
-            if monomial.coefficient >= 0:
+        for monomial in self.__terms[1:]:
+            if monomial.__coefficient >= 0:
                 string += "+"
 
             string += str(monomial)
@@ -117,7 +117,7 @@ class Polynomial:
         :return list: List of the Polynomial's terms
         """
 
-        return self.terms
+        return self.__terms
 
     def add_term(self, *new_terms: Monomial):
         """
@@ -129,7 +129,7 @@ class Polynomial:
 
         for new in new_terms:
             if type(new) == Monomial:
-                self.terms.append(new)
+                self.__terms.append(new)
             else:
                 raise TypeError("can only add a Monomial object (not \"{}\")".format(type(new).__name__))
 
@@ -142,7 +142,7 @@ class Polynomial:
         :return Polynomial: Derivative of the Polynomial
         """
 
-        return Polynomial(array=[n.derive() for n in self.terms])
+        return Polynomial(array=[n.derive() for n in self.__terms])
 
     def calculate(self, value: float):
         """
@@ -159,7 +159,7 @@ class Polynomial:
         if type(value) == float:
             result = 0
 
-            for monomial in self.terms:
+            for monomial in self.__terms:
                 result += monomial.calculate(value)
 
             return result
@@ -173,12 +173,12 @@ class Polynomial:
 
         i = 0
 
-        while i < len(self.terms):
+        while i < len(self.__terms):
             j = i + 1
-            while j < len(self.terms):
-                if self.terms[i].get_degree() == self.terms[j].get_degree():
-                    self.terms[i] += self.terms[j]
-                    self.terms.pop(j)
+            while j < len(self.__terms):
+                if self.__terms[i].get_degree() == self.__terms[j].get_degree():
+                    self.__terms[i] += self.__terms[j]
+                    self.__terms.pop(j)
                     # No incrementation because self.terms[j] is a new object
                 else:
                     j += 1
@@ -186,8 +186,8 @@ class Polynomial:
 
         i = 0
 
-        while i < len(self.terms):
-            if self.terms[i].get_coefficient() == 0:
-                self.terms.pop(i)
+        while i < len(self.__terms):
+            if self.__terms[i].get_coefficient() == 0:
+                self.__terms.pop(i)
             else:
                 i += 1
