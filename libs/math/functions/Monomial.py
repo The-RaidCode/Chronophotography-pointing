@@ -22,14 +22,14 @@ class Monomial:
         """
 
         if type(degree) == int:
-            self.degree = degree
+            self.__degree = degree
         else:
             raise TypeError("'degree' must be an integer (not \"{}\")".format(type(degree).__name__))
 
         if type(coefficient) == float:
-            self.coefficient = coefficient
+            self.__coefficient = coefficient
         elif type(coefficient) == int:
-            self.coefficient = float(coefficient)
+            self.__coefficient = float(coefficient)
         else:
             raise TypeError("'coefficient' must be a float or an integer (not \"{}\")".format(type(coefficient).__name__))
 
@@ -42,8 +42,8 @@ class Monomial:
         """
 
         if type(other) is Monomial:
-            if other.get_degree() == self.degree:
-                return Monomial(self.degree, self.coefficient + other.get_coefficient())
+            if other.get_degree() == self.__degree:
+                return Monomial(self.__degree, self.__coefficient + other.get_coefficient())
             else:
                 raise ValueError("ValueError: can only concatenate Monomial objects with the same degree")
         else:
@@ -57,7 +57,7 @@ class Monomial:
         """
 
         if type(other) is Monomial:
-            return Monomial(self.degree + other.get_degree(), self.coefficient * other.get_coefficient())
+            return Monomial(self.__degree + other.get_degree(), self.__coefficient * other.get_coefficient())
         else:
             raise TypeError("can only multiply Monomial by Monomial (not \"{}\")".format(type(other).__name__))
 
@@ -67,7 +67,7 @@ class Monomial:
         :return bool: Result of the comparison
         """
 
-        return type(other) == Monomial and self.degree == other.get_degree() and self.coefficient == other.get_coefficient()
+        return type(other) == Monomial and self.__degree == other.get_degree() and self.__coefficient == other.get_coefficient()
 
     def __str__(self):
         """
@@ -76,13 +76,13 @@ class Monomial:
 
         string = ""
 
-        if self.coefficient != 1 or self.degree == 0:
-            string += str(self.coefficient)
+        if self.__coefficient != 1 or self.__degree == 0:
+            string += str(self.__coefficient)
 
-        if self.degree == 1:
+        if self.__degree == 1:
             string += "x"
-        elif self.degree != 0:
-            string += "x^{}".format(self.degree)
+        elif self.__degree != 0:
+            string += "x^{}".format(self.__degree)
 
         return string
 
@@ -91,14 +91,14 @@ class Monomial:
         :return int: Degree of the Monomial
         """
 
-        return self.degree
+        return self.__degree
 
     def get_coefficient(self):
         """
         :return float: Multiplying Factor of the Monomial
         """
 
-        return self.coefficient
+        return self.__coefficient
 
     def set_degree(self, degree: int):
         """
@@ -106,7 +106,7 @@ class Monomial:
         """
 
         if type(degree) == int:
-            self.degree = degree
+            self.__degree = degree
         else:
             raise TypeError("'degree' must be an integer (not \"{}\")".format(type(degree).__name__))
 
@@ -118,9 +118,9 @@ class Monomial:
         """
 
         if type(coefficient) == float:
-            self.coefficient = coefficient
+            self.__coefficient = coefficient
         elif type(coefficient) == int:
-            self.coefficient = float(coefficient)
+            self.__coefficient = float(coefficient)
         else:
             raise TypeError("'coefficient' must be a float or an integer (not \"{}\")".format(type(coefficient).__name__))
 
@@ -131,7 +131,7 @@ class Monomial:
         :return Monomial: Derivative of the Monomial
         """
 
-        return Monomial(self.degree - 1, self.coefficient * self.degree)
+        return Monomial(self.__degree - 1, self.__coefficient * self.__degree)
     
     def calculate(self, value: float):
         """
@@ -146,6 +146,6 @@ class Monomial:
             value = float(value)
 
         if type(value) == float:
-            return self.coefficient * value ** self.degree
+            return self.__coefficient * value ** self.__degree
         else:
             raise TypeError("value must be an integer or a float (not \"{}\")".format(type(value).__name__))

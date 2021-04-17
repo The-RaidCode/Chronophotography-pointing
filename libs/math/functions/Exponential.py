@@ -23,8 +23,8 @@ class Exponential:
         :param Polynomial factor: Multiplying Factor to set
         """
 
-        self.power = power
-        self.factor = factor
+        self.__power = power
+        self.__factor = factor
 
     def __add__(self, other):
         """
@@ -35,8 +35,8 @@ class Exponential:
         """
 
         if type(other) is Exponential:
-            if other.get_power() == self.power:
-                return Exponential(self.power, self.factor + other.get_factor())
+            if other.get_power() == self.__power:
+                return Exponential(self.__power, self.__factor + other.get_factor())
             else:
                 raise ValueError("ValueError: can only concatenate Exponential objects with the same power")
         else:
@@ -50,7 +50,7 @@ class Exponential:
         """
 
         if type(other) is Exponential:
-            return Exponential(self.power + other.get_power(), self.factor * other.get_factor())
+            return Exponential(self.__power + other.get_power(), self.__factor * other.get_factor())
         else:
             raise TypeError("can only multiply Exponential by Exponential (not \"{}\")".format(type(other).__name__))
 
@@ -60,28 +60,28 @@ class Exponential:
         :return bool: Result of the Comparison
         """
 
-        return type(other) == Exponential and self.factor == other.get_factor() and self.power == other.get_power()
+        return type(other) == Exponential and self.__factor == other.get_factor() and self.__power == other.get_power()
 
     def __str__(self):
         """
         :return str: Character String of the Exponential
         """
 
-        return "({factor})exp({p})".format(factor=self.factor, p=self.power)
+        return "({factor})exp({p})".format(factor=self.__factor, p=self.__power)
 
     def get_power(self):
         """
         :return Polynomial: Power of the Exponential
         """
 
-        return self.power
+        return self.__power
 
     def get_factor(self):
         """
         :return Polynomial: Multiplying Factor of the Exponential
         """
 
-        return self.factor
+        return self.__factor
 
     def set_power(self, power: Polynomial):
         """
@@ -90,7 +90,7 @@ class Exponential:
         """
 
         if type(power) == Polynomial:
-            self.power = power
+            self.__power = power
         else:
             raise TypeError("'power' must be an Polynomial object (not \"{}\")".format(type(power).__name__))
 
@@ -101,7 +101,7 @@ class Exponential:
         """
 
         if type(factor) == Polynomial:
-            self.factor = factor
+            self.__factor = factor
         else:
             raise TypeError("'factor' must be an Polynomial object (not \"{}\")".format(type(factor).__name__))
 
@@ -112,7 +112,7 @@ class Exponential:
         :return Exponential: Derivative of the Exponential
         """
 
-        return Exponential(self.power, self.factor.derive() + (self.factor * self.power.derive()))
+        return Exponential(self.__power, self.__factor.derive() + (self.__factor * self.__power.derive()))
         # (v * exp(u))' = (v' * vu')exp(u)
 
     def calculate(self, value: float):
@@ -128,6 +128,6 @@ class Exponential:
             value = float(value)
 
         if type(value) == float:
-            return self.factor.calculate(value) * exp(self.power.calculate(value))
+            return self.__factor.calculate(value) * exp(self.__power.calculate(value))
         else:
             raise TypeError("value must be an integer or a float (not \"{}\")".format(type(value).__name__))
