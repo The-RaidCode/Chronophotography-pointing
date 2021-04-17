@@ -5,7 +5,6 @@ from tkinter import *
 
 
 class Point:
-
     """
         A class which represents a Point
 
@@ -19,8 +18,33 @@ class Point:
             distance_to : Returns the distance between this point and an other point
             draw : Draw the point on the Canvas
         """
+    instances = []
 
-    def __init__(self, x: float, y: float, ):
+    @classmethod
+    def get_last(cls):
+        """
+
+        :return: The last point that have been created or None if no point has been created
+        """
+        if cls.instances:
+            return cls.instances[-1]
+        return None
+
+    @classmethod
+    def research(cls, x: float, y: float):
+        """
+        Research if there is a point on the abscissa x and the ordinate y
+
+        :param x: The abscissa
+        :param y: The ordinate
+        :return: The point that is at this place and None if there is no point at this place
+        """
+        for point in cls.instances:
+            if sqrt((point.get_x() - x) ** 2 + (point.get_y() - y) ** 2) <= 5:
+                return point
+        return None
+
+    def __init__(self, x: float, y: float):
         """
         :param float x: The abscissa to set
         :param float y: The ordinate to set
@@ -28,10 +52,26 @@ class Point:
 
         self.__x = None
         self.__y = None
+
         self.__color = 'black'
+        self.__drawing = False
+        self.tk = None
+        self.can = None
+        self.image = None
 
         self.set_x(x)
         self.set_y(y)
+        self.instances.append(self)
+
+    def remove(self):
+        """
+        Erase Point from the Canvas if the point have been drawn
+        Delet the point from instances
+        :return:
+        """
+        if self.__drawing:
+            self.can.delete(self.tk, self.image)
+        Point.instances.remove(self)
 
     def distance_to(self, other_point):
         """
@@ -43,18 +83,20 @@ class Point:
 
         return sqrt((self.__x - x) ** 2 + (self.__y - y) ** 2)
 
-    def draw(self, can: Canvas, color):
+    def draw(self, tk: Tk, can: Canvas, color='black'):
         """
-        Draw the point on the Canvas
+        Draw the point
 
-        :param can:
-        :param color:
+        :param tk: The window where the point is drawn
+        :param can: The Canvas Where the point is drawn
+        :param color: The color of the point
         :return:
         """
+        self.tk = tk
         self.can = can
         self.__color = color
-        self.can.create_oval(self.__x - 5, self.__y - 5, self.__x + 5, self.__y + 5, fill=self.__color,
-                             outline=self.__color)
+        self.image = self.can.create_oval(self.__x - 5, self.__y - 5, self.__x + 5, self.__y + 5, fill=self.__color,
+                                          outline=self.__color)
 
     def set_x(self, x):
         """
