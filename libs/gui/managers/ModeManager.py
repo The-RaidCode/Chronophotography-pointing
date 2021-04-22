@@ -1,3 +1,6 @@
+from libs.gui.managers import ApplicationManager
+
+
 class ModeManager:
     """
     Class managing draw modes
@@ -28,4 +31,7 @@ class ModeManager:
         :param mode: Draw mode
         """
         if 0 <= mode <= 3:
+            if mode != 3:
+                application_manager = ApplicationManager.ApplicationManager.get_instance()
+                application_manager.get_image_manager().get_canvas().unbind("<B1-Motion>")
             self.__current_mode = mode

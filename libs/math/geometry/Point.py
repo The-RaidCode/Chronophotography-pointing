@@ -63,7 +63,7 @@ class Point:
         self.set_y(y)
         self.instances.append(self)
 
-    def remove(self):
+    def remove(self, instance_remove=True):
         """
         Erase Point from the Canvas if the point have been drawn
         Delete the point from instances
@@ -71,7 +71,8 @@ class Point:
         """
         if self.__drawing:
             self.can.delete(self.tk, self.image)
-        Point.instances.remove(self)
+        if instance_remove:
+            Point.instances.remove(self)
 
     def distance_to(self, other_point):
         """

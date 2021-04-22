@@ -18,6 +18,8 @@ class ApplicationManager:
         tools_bar_manager (ToolsBarManager) : Instance of the tools bar manager
         image_manager (ImageManager) : Instance of the image manager
         menu_bar_manager (MenuBarManager) : Instance of the menu bar manager
+        list_points (list) : List containing placed points
+        scale_points (list) : List containing placed scale points
 
     Methods
         build_menu_bar : Builds tkinter menu bar, this method must be executed in last position

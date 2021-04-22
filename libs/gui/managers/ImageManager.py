@@ -122,11 +122,20 @@ class ImageManager:
             point = Point.research(x, y)
             if point:
                 point.remove()
-                self.__application_manager.get_list_points().remove(point)
+                if point in self.__application_manager.get_list_points():
+                    self.__application_manager.get_list_points().remove(point)
+                else:
+                    self.__application_manager.get_list_scale().remove(point)
         elif mode == 2:
-            pass
+            if not len(self.__application_manager.get_list_scale()) == 2:
+                point = Point(x, y)
+                point.draw(self.__application_manager.get_application(),
+                           self.__application_manager.get_image_manager().get_canvas(), "red")
+                self.__application_manager.get_list_scale().append(point)
         else:
-            pass
+            self.__canvas.bind("<B1-Motion>", self.__slide)
+            self.__x_mouse = event.x
+            self.__y_mouse = event.y
 
     def __slide(self, event):
         """
@@ -136,7 +145,21 @@ class ImageManager:
         :param event: Event triggered by Tkinter
         """
 
-        self.__canvas.move(self.__id_photo, event.x - self.__x_mouse, event.y - self.__y_mouse)
+        shift_x = event.x - self.__x_mouse
+        shift_y = event.y - self.__y_mouse
+        self.__canvas.move(self.__id_photo, shift_x, shift_y)
+        for point in self.__application_manager.get_list_points():
+            point.remove(False)
+            point.set_x(point.get_x() + shift_x)
+            point.set_y(point.get_y() + shift_y)
+            point.draw(self.__application_manager.get_application(),
+                       self.__application_manager.get_image_manager().get_canvas())
+        for point in self.__application_manager.get_list_scale():
+            point.remove(False)
+            point.set_x(point.get_x() + shift_x)
+            point.set_y(point.get_y() + shift_y)
+            point.draw(self.__application_manager.get_application(),
+                       self.__application_manager.get_image_manager().get_canvas(), "red")
         self.__x_mouse = event.x
         self.__y_mouse = event.y
 
