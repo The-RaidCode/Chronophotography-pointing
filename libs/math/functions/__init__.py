@@ -20,4 +20,3 @@ __version__ = "1.2.4"
 
 from libs.math.functions.Polynomial import Polynomial
 from libs.math.functions.Monomial import Monomial
-from libs.math.functions.Exponential import Exponential
