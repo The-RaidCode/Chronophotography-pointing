@@ -38,7 +38,7 @@ class Exponential:
             if other.get_power() == self.__power:
                 return Exponential(self.__power, self.__factor + other.get_factor())
             else:
-                raise ValueError("ValueError: can only concatenate Exponential objects with the same power")
+                raise ValueError("can only concatenate Exponential objects with the same power")
         else:
             raise TypeError("can only concatenate Exponential (not \"{}\") to Exponential".format(type(other).__name__))
 
