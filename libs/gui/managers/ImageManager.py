@@ -114,12 +114,15 @@ class ImageManager:
 
         mode = self.__application_manager.get_mode_manager().get_current_mode()
         if mode == 0:
-            Point(x, y).draw(self.__application_manager.get_application(),
-                             self.__application_manager.get_image_manager().get_canvas())
+            point = Point(x, y)
+            point.draw(self.__application_manager.get_application(),
+                       self.__application_manager.get_image_manager().get_canvas())
+            self.__application_manager.get_list_points().append(point)
         elif mode == 1:
             point = Point.research(x, y)
             if point:
                 point.remove()
+                self.__application_manager.get_list_points().remove(point)
         elif mode == 2:
             pass
         else:

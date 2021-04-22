@@ -33,6 +33,9 @@ class ApplicationManager:
 
         ApplicationManager.__instance = self
 
+        self.__list_points = []
+        self.__list_scale = []
+
         self.__application = Application("Physique", "1280x720", "resources/icons/icon.ico", True, "#595959")
         self.__application.state("zoomed")
 
@@ -79,6 +82,20 @@ class ApplicationManager:
 
         return self.__menu_bar_manager
 
+    def get_list_points(self):
+        """
+        :return list: List containing placed points
+        """
+
+        return self.__list_points
+
+    def get_list_scale(self):
+        """
+        :return list: List containing placed scale points
+        """
+
+        return self.__list_scale
+
     @staticmethod
     def get_instance():
         """
@@ -86,3 +103,19 @@ class ApplicationManager:
         """
 
         return ApplicationManager.__instance
+
+    # -*- Setters -*-
+
+    def set_list_points(self, points: list):
+        """
+        :param points: Array list of the placed points
+        """
+
+        self.__list_points = points
+
+    def set_list_scale(self, scale: list):
+        """
+        :param scale: Array list of the placed scale points
+        """
+
+        self.__list_scale = scale

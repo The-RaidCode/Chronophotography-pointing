@@ -102,6 +102,8 @@ class MenuBarManager:
         :param event: Event triggered by Tkinter
         """
 
-        ApplicationManager.ApplicationManager.get_instance().get_image_manager().clear_canvas()
-        ApplicationManager.ApplicationManager.get_instance().get_application().set_app_name(
-            ApplicationManager.ApplicationManager.get_instance().get_application().get_main_title())
+        application_manager = ApplicationManager.ApplicationManager.get_instance()
+        application_manager.get_image_manager().clear_canvas()
+        application_manager.get_instance().get_application().set_app_name(
+            application_manager.get_application().get_main_title())
+        application_manager.get_image_manager().get_canvas().unbind("<Button-1>")
