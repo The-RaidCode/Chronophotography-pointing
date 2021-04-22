@@ -66,7 +66,7 @@ class Point:
     def remove(self):
         """
         Erase Point from the Canvas if the point have been drawn
-        Delet the point from instances
+        Delete the point from instances
         :return:
         """
         if self.__drawing:
@@ -95,6 +95,7 @@ class Point:
         self.tk = tk
         self.can = can
         self.__color = color
+        self.__drawing = True
         self.image = self.can.create_oval(self.__x - 5, self.__y - 5, self.__x + 5, self.__y + 5, fill=self.__color,
                                           outline=self.__color)
 
