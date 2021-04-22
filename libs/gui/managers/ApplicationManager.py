@@ -34,8 +34,8 @@ class ApplicationManager:
         self.__application = Application("Physique", "1280x720", "resources/icons/icon.ico", True, "#595959")
         self.__application.state("zoomed")
 
-        self.__tools_bar_manager = ToolsBarManager()
         self.__image_manager = ImageManager()
+        self.__tools_bar_manager = ToolsBarManager()
         self.__menu_bar_manager = MenuBarManager()
 
     def run_application(self):

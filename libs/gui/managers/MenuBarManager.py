@@ -35,10 +35,10 @@ class MenuBarManager:
         self.__main_menu_bar = tkinter.Menu(self.__application)
         self.__menu_file = tkinter.Menu(self.__main_menu_bar, tearoff=0)
 
-        self.__import_media_icon = tkinter.PhotoImage(file="resources/icons/menu/import_media.png")
-        self.__delete_media_icon = tkinter.PhotoImage(file="resources/icons/menu/delete_media.png")
-        self.__export_csv_icon = tkinter.PhotoImage(file="resources/icons/menu/export_csv.png")
-        self.__quit_icon = tkinter.PhotoImage(file="resources/icons/menu/quit.png")
+        self.__import_media_icon = tkinter.PhotoImage(file="resources/icons/menu/import_media_16.png")
+        self.__delete_media_icon = tkinter.PhotoImage(file="resources/icons/menu/delete_media_16.png")
+        self.__export_csv_icon = tkinter.PhotoImage(file="resources/icons/menu/export_csv_16.png")
+        self.__quit_icon = tkinter.PhotoImage(file="resources/icons/menu/quit_16.png")
 
         self.__load_menu_file()
 
