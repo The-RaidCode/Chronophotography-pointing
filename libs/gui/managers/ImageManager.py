@@ -5,6 +5,7 @@ import tkinter
 from PIL import Image, ImageTk
 
 from libs.gui.managers import ApplicationManager
+from libs.math.geometry.Point import Point
 
 
 class ImageManager:
@@ -83,9 +84,7 @@ class ImageManager:
         self.__im_height = box[2] - box[0]
         self.__im_width = box[3] - box[1]
 
-        # self.__canvas.bind("<B1-Motion>", self.__slide)
-        # self.__canvas.bind("<Button-1>", self.__origin)
-        # self.__canvas.bind("<MouseWheel>", self.__zoom)
+        self.__canvas.bind("<Button-1>", self.__left_click)
 
     def clear_canvas(self):
         """
@@ -103,16 +102,28 @@ class ImageManager:
         self.__im_height = 0
         self.__im_width = 0
 
-    def __origin(self, event):
+    def __left_click(self, event):
         """
         Triggered on left click
-        Saves current x and y mouse position
 
         :param event: Event triggered by Tkinter
         """
 
-        self.__x_mouse = event.x
-        self.__y_mouse = event.y
+        x = event.x
+        y = event.y
+
+        mode = self.__application_manager.get_mode_manager().get_current_mode()
+        if mode == 0:
+            Point(x, y).draw(self.__application_manager.get_application(),
+                             self.__application_manager.get_image_manager().get_canvas())
+        elif mode == 1:
+            point = Point.research(x, y)
+            if point:
+                point.remove()
+        elif mode == 2:
+            pass
+        else:
+            pass
 
     def __slide(self, event):
         """
@@ -159,7 +170,15 @@ class ImageManager:
         return self.__id_photo
 
     def get_canvas_width(self):
+        """
+        :return int: Current canvas width
+        """
+
         return self.__canvas_width
 
     def get_canvas_height(self):
+        """
+        :return int: Current canvas height
+        """
+
         return self.__canvas_height

@@ -17,12 +17,14 @@ class Polynomial:
         simplify : Simplifies this Polynomial by adding up Monomial objects with the same degree
     """
 
-    def __init__(self, *monomials: Monomial, array: list = []):
+    def __init__(self, *monomials: Monomial, array=None):
         """
         :param Monomial monomials: Monomial object(s) to set
         :param list array: Array of Monomial object(s) to set
         :raise TypeError: Raised if a non-Monomial object tried to be add to this Polynomial
         """
+        if array is None:
+            array = []
         self.__terms = []
 
         for item in monomials:
@@ -75,7 +77,7 @@ class Polynomial:
         :return bool: Result of the comparison
         """
 
-        if type(other) == Polynomial :
+        if type(other) == Polynomial:
             other_terms = other.get_terms()
             i_max = len(self.__terms)
             j_max = len(other_terms)

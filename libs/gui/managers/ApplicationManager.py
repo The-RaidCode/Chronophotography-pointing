@@ -3,6 +3,7 @@
 from libs.gui.Application import Application
 from libs.gui.managers.ImageManager import ImageManager
 from libs.gui.managers.MenuBarManager import MenuBarManager
+from libs.gui.managers.ModeManager import ModeManager
 from libs.gui.managers.ToolsBarManager import ToolsBarManager
 
 
@@ -13,7 +14,8 @@ class ApplicationManager:
     Attributes
         static instance (ApplicationManager) : Instance of the ApplicationManager
         application (Application) : Instance of the main tkinter application
-        tools_bar_manager : Instance of the tools bar manager
+        mode_manager (ModeManager) : Instance of the mode manager
+        tools_bar_manager (ToolsBarManager) : Instance of the tools bar manager
         image_manager (ImageManager) : Instance of the image manager
         menu_bar_manager (MenuBarManager) : Instance of the menu bar manager
 
@@ -34,6 +36,9 @@ class ApplicationManager:
         self.__application = Application("Physique", "1280x720", "resources/icons/icon.ico", True, "#595959")
         self.__application.state("zoomed")
 
+        self.__menu_bar_manager = None
+
+        self.__mode_manager = ModeManager()
         self.__image_manager = ImageManager()
         self.__tools_bar_manager = ToolsBarManager()
         self.__menu_bar_manager = MenuBarManager()
@@ -60,6 +65,12 @@ class ApplicationManager:
         """
 
         return self.__image_manager
+
+    def get_mode_manager(self):
+        """
+        :return ModeManager: Mode manager instance 
+        """
+        return self.__mode_manager
 
     def get_menu_bar_manager(self):
         """

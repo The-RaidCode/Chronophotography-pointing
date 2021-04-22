@@ -55,9 +55,9 @@ class MenuBarManager:
         self.__menu_file.add_command(label="Ouvrir un projet", command=None)
         self.__menu_file.add_separator()
         self.__menu_file.add_command(label="Importer un média (Ctrl+I)", compound="left",
-                                     image=self.__import_media_icon, command=self.__open_file_explorer)
+                                     image=self.__import_media_icon, command=self.open_file_explorer)
         self.__menu_file.add_command(label="Supprimer le média (Ctrl+D)", compound="left",
-                                     image=self.__delete_media_icon, command=self.__clear_canvas)
+                                     image=self.__delete_media_icon, command=self.clear_canvas)
         self.__menu_file.add_separator()
         self.__menu_file.add_command(label="Exporter en CSV", compound="left",
                                      image=self.__export_csv_icon, command=None)
@@ -70,13 +70,14 @@ class MenuBarManager:
         self.__menu_file.entryconfig("Enregistrer le projet", state="disabled")
         self.__menu_file.entryconfig("Ouvrir un projet", state="disabled")
 
-        self.__application_manager.get_application().bind("<Control-i>", self.__open_file_explorer)
-        self.__application_manager.get_application().bind("<Control-d>", self.__clear_canvas)
+        self.__application_manager.get_application().bind("<Control-i>", self.open_file_explorer)
+        self.__application_manager.get_application().bind("<Control-d>", self.clear_canvas)
         self.__application_manager.get_application().bind("<Control-q>", lambda p: self.__application.destroy())
 
         self.__main_menu_bar.add_cascade(label="Fichier", menu=self.__menu_file)
 
-    def __open_file_explorer(self, event=None):
+    @staticmethod
+    def open_file_explorer(event=None):
         """
         Triggered on 'Import media' button
         Opens file explorer
@@ -90,9 +91,10 @@ class MenuBarManager:
                                                       filetypes=(("Images", ["*.png", "*.jpg", "*.jpeg"]),
                                                                  ("Tous les fichiers", "*.*")))
         if filename:
-            self.__application_manager.get_image_manager().load_image(filename)
+            ApplicationManager.ApplicationManager.get_instance().get_image_manager().load_image(filename)
 
-    def __clear_canvas(self, event=None):
+    @staticmethod
+    def clear_canvas(event=None):
         """
         Triggered on 'Delete media' button
         Delete current media in the canvas area
@@ -100,6 +102,6 @@ class MenuBarManager:
         :param event: Event triggered by Tkinter
         """
 
-        self.__application_manager.get_image_manager().clear_canvas()
-        self.__application_manager.get_application().set_app_name(
-            self.__application_manager.get_application().get_main_title())
+        ApplicationManager.ApplicationManager.get_instance().get_image_manager().clear_canvas()
+        ApplicationManager.ApplicationManager.get_instance().get_application().set_app_name(
+            ApplicationManager.ApplicationManager.get_instance().get_application().get_main_title())

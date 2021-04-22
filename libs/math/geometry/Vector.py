@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from math import sqrt
+from tkinter import Canvas
 
-from Point import *
+from libs.math.geometry import Point
 
 
 class Vector:
@@ -28,7 +29,8 @@ class Vector:
         self.__application_point = application_point
         self.__x = None
         self.__y = None
-        self.__lenght = None
+        self.__length = None
+        self.can = None
 
         self.__color = 'black'
 
@@ -46,10 +48,10 @@ class Vector:
         self.set_color(color)
         self.can = can
         self.can.create_line(self.__application_point.get_x(),
-                                 self.__application_point.get_y(),
-                                 self.__application_point.get_x() + self.__x,
-                                 self.__application_point.get_y() + self.__y,
-                                 fill=self.__color, width=2, arrow='last', arrowshape=(10, 10, 10))
+                             self.__application_point.get_y(),
+                             self.__application_point.get_x() + self.__x,
+                             self.__application_point.get_y() + self.__y,
+                             fill=self.__color, width=2, arrow='last', arrowshape=(10, 10, 10))
 
     def set_length(self):
         """
