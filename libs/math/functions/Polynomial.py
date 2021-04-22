@@ -107,7 +107,7 @@ class Polynomial:
         string = str(self.__terms[0])
 
         for monomial in self.__terms[1:]:
-            if monomial.__coefficient >= 0:
+            if monomial.get_coefficient() >= 0:
                 string += "+"
 
             string += str(monomial)
