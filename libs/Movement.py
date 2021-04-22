@@ -19,6 +19,7 @@ class Movement:
         abs_equation (Polynomial) : Movement's Equations on Abscissa Axis
         ord_equation (Polynomial) : Movement's Equations on Ordinate Axis
         delta_t (float) : Duration between each points
+        time (list) : List of the value of time
 
     Methods
         hydrate : Extracts data from the collection of Points to determined the functions
@@ -76,28 +77,21 @@ class Movement:
         else:
             raise TypeError("'points' must be list (not \"{}\")".format(type(points).__name__))
 
-        self.__abs_equation = None
-        self.__ord_equation = None
-        self.hydrate(abs_degree, ord_degree)
+        # Determination of the movement's equations
 
-    def hydrate(self, abs_degree: int, ord_degree: int):
-        """
-        Extracts data from the collection of Points to determined the functions
-        """
-
-        time, x_data, y_data = [], [], []
+        self.__time, x_data, y_data = [], [], []
         i = 0
         i_max = len(self.__points)
 
         while i < i_max:
-            time.append(self.__delta_t * i)
+            self.__time.append(self.__delta_t * i)
             x_data.append(self.__points[i].get_x())
             y_data.append(self.__points[i].get_y())
 
             i += 1
 
-        self.__abs_equation = self.equ_determinate(time, x_data, abs_degree)
-        self.__ord_equation = self.equ_determinate(time, y_data, ord_degree)
+        self.__abs_equation = self.equ_determinate(self.__time, x_data, abs_degree)
+        self.__ord_equation = self.equ_determinate(self.__time, y_data, ord_degree)
 
     @classmethod
     def equ_determinate(cls, x_array: list, y_array: list, degree: int):
@@ -124,3 +118,37 @@ class Movement:
             return Polynomial(Monomial(1, params[0]))
         else:
             return Polynomial(array=[Monomial(i, round(float(params[degree - i]), 6)) for i in range(degree, -1, -1)])
+
+    def speed_vectors(self):
+        """
+        Returns a collection of Vector Objects for each points, representing the Speed Vectors of the movement
+
+        :return list vectors: List of the Speed Vectors
+        """
+
+        vectors = []
+        abs_vector = self.__abs_equation.derive()
+        ord_vector = self.__ord_equation.derive()
+
+        for i in range(len(self.__points)):
+            vectors.append(Vector(self.__points[i], abs_vector.calculate(self.__time[i]), ord_vector.calculate(self.__time[i])))
+
+        return vectors
+
+    def acceleration_vector(self):
+        """
+        Returns a collection of Vector Objects for each points, representing the Acceleration Vectors of the movement
+
+        :return list vectors: List of the Acceleration Vectors
+        """
+
+        vectors = []
+        abs_vector = self.__abs_equation.derive().derive()
+        ord_vector = self.__ord_equation.derive().derive()
+
+        for i in range(len(self.__points)):
+            vectors.append(
+                Vector(self.__points[i], abs_vector.calculate(self.__time[i]), ord_vector.calculate(self.__time[i])))
+
+        return vectors
+
