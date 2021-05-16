@@ -4,6 +4,7 @@ import tkinter
 
 from PIL import Image, ImageTk
 
+from libs.Movement import Movement
 from libs.gui.managers import ApplicationManager
 from libs.math.geometry.Point import Point
 
@@ -26,6 +27,7 @@ class ImageManager:
         canvas_width (int) : Canvas's width (pixel)
 
     Methods
+        plot : Plots speed and acceleration vectors on the canvas
         load_image : Loads an image on the canvas from his path and bind events
         origin : Event triggered on left click
         slide : Event triggered on mouse slide to slide image
@@ -50,7 +52,7 @@ class ImageManager:
         screen__height = self.__application_manager.get_application().winfo_screenheight()
         screen_width = self.__application_manager.get_application().winfo_screenwidth()
 
-        self.__canvas_height = screen__height // 4 * 3
+        self.__canvas_height = screen__height // 3 * 2
         self.__canvas_width = screen_width // 4 * 3
 
         self.__canvas = tkinter.Canvas(self.__application_manager.get_application(), bg="#E2FADB",
@@ -101,6 +103,32 @@ class ImageManager:
         self.__y_mouse = 0
         self.__im_height = 0
         self.__im_width = 0
+
+        self.__application_manager.set_list_points([])
+        self.__application_manager.set_list_scale([])
+        self.__application_manager.set_speed_vectors([])
+        self.__application_manager.set_acceleration_vectors([])
+
+    def plot(self):
+        """
+        Plots speed and acceleration vectors on the canvas
+        """
+
+        list_points = self.__application_manager.get_list_points()
+        list_scale = self.__application_manager.get_list_scale()
+
+        entry = self.__application_manager.get_instruction_manager().get_scale()
+
+        if len(list_points) >= 2 and len(list_scale) == 2 and entry:
+            movement = Movement(list_points, 1, 1, 2)
+            vectors = movement.speed_vectors()
+            accelerations = movement.acceleration_vector()
+
+            for i in range(len(vectors)):
+                self.__application_manager.get_speed_vectors().append(vectors[i])
+                self.__application_manager.get_acceleration_vectors().append(accelerations[i])
+                vectors[i].draw(self.__application_manager.get_application(), self.__canvas, "red")
+                accelerations[i].draw(self.__application_manager.get_application(), self.__canvas, "blue")
 
     def __left_click(self, event):
         """
@@ -160,6 +188,16 @@ class ImageManager:
             point.set_y(point.get_y() + shift_y)
             point.draw(self.__application_manager.get_application(),
                        self.__application_manager.get_image_manager().get_canvas(), "red")
+        for i in range(len(self.__application_manager.get_speed_vectors())):
+            speed = self.__application_manager.get_speed_vectors()[i]
+            acceleration = self.__application_manager.get_acceleration_vectors()[i]
+            speed_point = speed.get_application_point()
+            speed.remove(False)
+            speed_point.set_x(speed_point.get_x() + shift_x)
+            speed_point.set_y(speed_point.get_y() + shift_y)
+            speed.draw(self.__application_manager.get_application(),
+                       self.__application_manager.get_image_manager().get_canvas(), "red")
+
         self.__x_mouse = event.x
         self.__y_mouse = event.y
 

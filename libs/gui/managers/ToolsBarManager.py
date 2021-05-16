@@ -14,6 +14,7 @@ class ToolsBarManager:
     Attributes
         application_manager (ApplicationManager) : Instance of the application manager
         application (Application) : Instance of the main application
+        image_manager (ImageManager) : Instance of the image manager
         mode_manager (ModeManager) : Instance of the mode manager
         menu_bar_manager (MenuBarManager) : Instance of the menu bar manager
         main_frame (Frame) : Main tools bar frame
@@ -34,6 +35,7 @@ class ToolsBarManager:
 
         self.__application_manager = ApplicationManager.ApplicationManager.get_instance()
         self.__application = self.__application_manager.get_application()
+        self.__image_manager = self.__application_manager.get_image_manager()
         self.__mode_manager = self.__application_manager.get_mode_manager()
         self.__menu_bar_manager = self.__application_manager.get_menu_bar_manager()
 
@@ -52,6 +54,7 @@ class ToolsBarManager:
         self.__calibration_icon = tkinter.PhotoImage(file="resources/icons/toolbar/calibration_32.png")
         self.__pointing_icon = tkinter.PhotoImage(file="resources/icons/toolbar/pointing_32.png")
         self.__erase_icon = tkinter.PhotoImage(file="resources/icons/toolbar/erase_32.png")
+        self.__plot_icon = tkinter.PhotoImage(file="resources/icons/toolbar/plot_32.png")
         self.__zoom_in_icon = tkinter.PhotoImage(file="resources/icons/toolbar/zoom_in_32.png")
         self.__zoom_out_icon = tkinter.PhotoImage(file="resources/icons/toolbar/zoom_out_32.png")
         self.__move_icon = tkinter.PhotoImage(file="resources/icons/toolbar/move_32.png")
@@ -91,6 +94,9 @@ class ToolsBarManager:
         self.__scale = tkinter.Button(self.__point_frame, image=self.__calibration_icon, bg="#7584F2", relief="flat",
                                       command=lambda: self.__mode_manager.set_current_mode(2))
         self.__scale.grid(column=0, row=2)
+        self.__plot = tkinter.Button(self.__point_frame, image=self.__plot_icon, bg="#7584F2", relief="flat",
+                                     command=self.__image_manager.plot)
+        self.__plot.grid(column=0, row=3)
 
     def __load_movement_frame(self):
         """

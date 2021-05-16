@@ -106,3 +106,10 @@ class Vector:
         :return float: The ordinate
         """
         return self.__y
+
+    def get_application_point(self):
+        """
+        :return Point: Application point
+        """
+
+        return self.__application_point
