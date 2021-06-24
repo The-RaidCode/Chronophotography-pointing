@@ -27,6 +27,7 @@ class InstructionManager:
         """
 
         self.__scale = tkinter.DoubleVar()
+        self.__period = tkinter.DoubleVar()
 
         self.__application_manager = ApplicationManager.ApplicationManager.get_instance()
         self.__application = self.__application_manager.get_application()
@@ -41,6 +42,9 @@ class InstructionManager:
         self.__entry_scale_frame = tkinter.LabelFrame(self.__scale_frame, text="Distance réelle pour étalonnage")
         self.__entry_scale_frame.grid(row=2)
 
+        self.__entry_time_frame = tkinter.LabelFrame(self.__scale_frame, text="Interval de temps entre deux points")
+        self.__entry_time_frame.grid(row=3)
+
         self.__load_label()
         self.__load_scale_frame()
 
@@ -53,6 +57,9 @@ class InstructionManager:
         tkinter.Label(self.__scale_frame, text="Etalonnage:").grid(row=0)
         tkinter.Label(self.__scale_frame, text="Cliquez sur les deux extremités d'un objet").grid(row=1)
         tkinter.Entry(self.__entry_scale_frame, textvariable=self.__scale).grid()
+        tkinter.Label(self.__entry_scale_frame, text="cm").grid(column=1, row=0)
+        tkinter.Entry(self.__entry_time_frame, textvariable=self.__period).grid()
+        tkinter.Label(self.__entry_time_frame, text="s").grid(column=1, row=0)
 
     # -*- Getters -*-
 
@@ -62,3 +69,10 @@ class InstructionManager:
         """
 
         return self.__scale.get()
+
+    def get_period(self):
+        """
+        :return float: Period entry
+        """
+
+        return self.__period.get()
